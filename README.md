@@ -1,25 +1,28 @@
 # GAN Seminar Project (Keras/TensorFlow)
-
-Short university project: train and compare **GAN**, **WGAN**, and **cGAN** on **MNIST** using Keras/TensorFlow.  
-Includes basic training and simple image generation.
+**Seminar work (University of Duisburg–Essen).** Research and implementation of **GAN**, **WGAN**, and **cGAN** for image generation on **MNIST** using **Keras/TensorFlow**.  
+Project includes **model training**, **visual comparisons**, and **FID-based evaluation** (as reported in the seminar write-up), plus full documentation (paper + slides).
 
 ---
 
 ## Features
-- Models: GAN, WGAN, cGAN
-- Dataset: MNIST
-- Training + simple image sampling
+- Implemented **GAN**, **WGAN**, **cGAN** in Keras/TensorFlow
+- Trained on **MNIST**
+- **Model comparison via visual samples** and **FID** (reported in the seminar paper)
+- Clear, minimal **training & sampling scripts**
+- **Documentation provided**: seminar paper (PDF) and presentation slides (PDF)
+- Version control and code organization via **GitHub**
 
 ---
 
 ## Tech Stack
-- Python 3.x
-- TensorFlow / Keras, NumPy, Matplotlib
+- **Python 3.x**
+- **TensorFlow / Keras**
+- NumPy, Matplotlib
 
 ---
 
 ## Installation
-Create a virtual environment and install dependencies.
+Create a virtual environment and install dependencies:
 
 ```bash
 python -m venv .venv
