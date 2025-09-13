@@ -4,7 +4,7 @@ from keras.datasets import mnist
 from keras.layers import Input, Dense, Reshape, Flatten, Dropout
 from keras.layers import BatchNormalization, Activation, ZeroPadding2D
 from keras.layers import LeakyReLU
-from tensorflow.keras.layers import UpSampling2D, Conv2D
+from keras.layers import UpSampling2D, Conv2D
 from keras.models import Sequential, Model
 from keras.optimizers import Adam
 
@@ -50,26 +50,28 @@ class GAN():
 
 
     def build_generator(self):
-
         model = Sequential()
-
-        model.add(Dense(256, input_dim=self.latent_dim))
-        model.add(LeakyReLU(alpha=0.2))
+        model.add(Dense(128 * 7 * 7, activation="relu", input_dim=self.latent_dim))
+        model.add(Reshape((7, 7, 128)))
         model.add(BatchNormalization(momentum=0.8))
-        model.add(Dense(512))
-        model.add(LeakyReLU(alpha=0.2))
+    
+        model.add(UpSampling2D())  # 7x7 → 14x14
+        model.add(Conv2D(128, kernel_size=3, padding="same"))
+        model.add(Activation("relu"))
         model.add(BatchNormalization(momentum=0.8))
-        model.add(Dense(1024))
-        model.add(LeakyReLU(alpha=0.2))
+    
+        model.add(UpSampling2D())  # 14x14 → 28x28
+        model.add(Conv2D(64, kernel_size=3, padding="same"))
+        model.add(Activation("relu"))
         model.add(BatchNormalization(momentum=0.8))
-        model.add(Dense(np.prod(self.img_shape), activation='tanh'))
-        model.add(Reshape(self.img_shape))
+    
+        model.add(Conv2D(1, kernel_size=3, padding="same"))
+        model.add(Activation("tanh"))
 
         model.summary()
 
         noise = Input(shape=(self.latent_dim,))
         img = model(noise)
-
         return Model(noise, img)
 
     def build_discriminator(self):
@@ -168,6 +170,6 @@ if __name__ == '__main__':
     gan.generator.save('generator.h5')
     print("Generator model saved as generator.h5")
 
-    # Optional: Save the trained discriminator
+    # Save the trained discriminator
     gan.discriminator.save('discriminator.h5')
     print("Discriminator model saved as discriminator.h5")
